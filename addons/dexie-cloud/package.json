@@ -55,7 +55,8 @@
     "test-unit": "karma start test/unit/karma.conf.cjs --single-run",
     "build": "rollup -c tools/build-configs/rollup.config.mjs",
     "watch": "rollup -c tools/build-configs/rollup.config.mjs --watch",
-    "clean": "rm -rf tools/tmp dist test/unit/bundle.*"
+    "clean": "rm -rf tools/tmp dist test/unit/bundle.*",
+    "prepare": "npm run build"
   },
   "just-build": {
     "default": [

@@ -10,7 +10,7 @@
     "build": "tsc",
     "prepare": "tsc",
     "test": "jest",
-    "tsver": "tsc --version"
+    "tsver": "tsc --version",
   },
   "author": "David Fahlander",
   "license": "Apache-2.0",
