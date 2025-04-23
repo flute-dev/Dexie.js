@@ -9,21 +9,23 @@ export default function initSyncableConnect(db, connect) {
       if (!db._localSyncNode)
         throw new Error("Precondition failed: local sync node is missing. Make sure Dexie.Observable is active!");
 
-      if (db._localSyncNode.isMaster) {
-        // We are master node
-        return connect(protocolInstance, protocolName, url, options, db._localSyncNode.id);
-      } else {
-        // We are not master node
-        // Request master node to do the connect:
-        return db.table('_syncNodes').where('isMaster').above(0).first(function (masterNode) {
-          // There will always be a master node. In theory we may self have become master node when we come here. But that's ok. We'll request ourselves.
-          return db.observable.sendMessage('connect', {
-            protocolName: protocolName,
-            url: url,
-            options: options
-          }, masterNode.id, {wantReply: true});
-        });
-      }
+      return connect(protocolInstance, protocolName, url, options, db._localSyncNode.id);
+      // console.log('db._localSyncNode.isMaster', db._localSyncNode.isMaster);
+      // if (true || db._localSyncNode.isMaster) {
+      //   // We are master node
+        
+      // } else {
+      //   // We are not master node
+      //   // Request master node to do the connect:
+      //   return db.table('_syncNodes').where('isMaster').above(0).first(function (masterNode) {
+      //     // There will always be a master node. In theory we may self have become master node when we come here. But that's ok. We'll request ourselves.
+      //     return db.observable.sendMessage('connect', {
+      //       protocolName: protocolName,
+      //       url: url,
+      //       options: options
+      //     }, masterNode.id, {wantReply: true});
+      //   });
+      // }
     } else if (db.hasBeenClosed()) {
       // Database has been closed.
       return Promise.reject(new Dexie.DatabaseClosedError());
